@@ -34,11 +34,13 @@ class ThreeCanvas extends Component<MyProps, MyState> {
         var camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
         var renderer = new THREE.WebGLRenderer();
         const interaction = new Interaction(renderer, scene, camera);
-
+        var light = new THREE.DirectionalLight(0xffffff);
+        light.position.set(0, 1, 1).normalize();
+        scene.add(light);
         renderer.setSize(window.innerWidth, window.innerHeight);
         document.body.appendChild(renderer.domElement);
         var geometry = new THREE.BoxGeometry(1, 1, 1);
-        var material = new THREE.MeshBasicMaterial({ color: this.props.cubecolor });
+        var material = new THREE.MeshPhongMaterial({ color: this.props.cubecolor });
         this.cube = new THREE.Mesh(geometry, material);
         scene.add(this.cube);
         camera.position.z = 5;
@@ -71,7 +73,7 @@ class ThreeCanvas extends Component<MyProps, MyState> {
     componentDidUpdate(prevProps: any, prevState: any, snapshot: any) {
         console.log('component did update ', prevProps, prevState, snapshot);
         // farbe neu setzen
-        var material = new THREE.MeshBasicMaterial({ color: this.props.cubecolor });
+        var material = new THREE.MeshPhongMaterial({ color: this.props.cubecolor });
         this.cube.material = material;
     }
 
