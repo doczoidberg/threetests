@@ -1,26 +1,60 @@
-import React from 'react';
+import React, { Component } from 'react';
 import logo from './logo.svg';
-import './App.css';
+import ReactDOM from "react-dom";
+import * as THREE from "three";
+import ThreeCanvas from "./ThreeCanvas";
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+import './App.css';
+interface MyProps {
+  cubecolor: string;
+  parentCallback: any;
+}
+
+interface IProps {
+  //  id: string
+  // cubecolor: string;
+  // parentCallback: any;
+}
+interface IState {
+  rendered: boolean,
+  scene: any
+}
+
+
+class App extends Component<IProps, IState>  {
+
+  constructor(props: IProps | Readonly<IProps>) {
+    super(props);
+    this.changecolor = this.changecolor.bind(this);
+    this.state = {
+      rendered: true,
+      scene: {
+        cubecolor: '#0000ff'
+      }
+    }
+  }
+  changecolor() {
+
+    //this.state.scene.cubecolor = "#00ff00"
+    this.setState({ scene: { cubecolor: "#00ff00" } })
+    console.log('color changed to ', this.state.scene.cubecolor)
+  }
+
+  callbackFunction(childData: any) {
+    console.log('event from app', childData);
+    //    this.setState({ message: childData })
+  }
+
+  render() {
+    return (
+      <div>
+        <div>test {this.state.scene.cubecolor}</div>
+        <button onClick={this.changecolor}>Change color!</button>
+        <ThreeCanvas cubecolor={this.state.scene.cubecolor} parentCallback={this.callbackFunction}></ThreeCanvas>
+      </div>
+    )
+  }
+
 }
 
 export default App;
