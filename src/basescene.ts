@@ -31,19 +31,19 @@ class BaseScene {
     // Grid
     const size = 2000 * this.scaleX;
     const divisions = 40;
-    this.grid = new THREE.GridHelper(size, divisions, 0x666666, 0xBBBBBB);
+    this.grid = new THREE.GridHelper(size, divisions, 0x000000, 0x888888);
     scene.add(this.grid);
     this.grid.visible = true;
 
     // bodentextur
-    const floor_material = new THREE.MeshPhongMaterial({ color: 0xffffff });
+    const floor_material = new THREE.MeshPhongMaterial({ color: 0xaaaaaa });
     const loader = new THREE.TextureLoader();
-    const Texture = loader.load("/assets/GrassGreenTexture0003.jpg", texture => { floor_material.map = texture; floor_material.needsUpdate = true; });
+    const Texture = loader.load("/assets/laminate1.jpg", texture => { floor_material.map = texture; floor_material.needsUpdate = true; });
     Texture.wrapS = Texture.wrapT = THREE.RepeatWrapping;
-    Texture.repeat.set(44, 44);
+    Texture.repeat.set(200, 100);
     const floor_geometry = new THREE.PlaneGeometry(9000 * this.scaleX, 9000 * this.scaleX);
     this.grass = new THREE.Mesh(floor_geometry, floor_material);
-    this.grass.position.y -= 0.1;
+    this.grass.position.y -= 0.9;
     //   floor.position.set(0, -2, 0);
     this.grass.rotation.x -= Math.PI / 2;
     this.grass.receiveShadow = true;
@@ -55,13 +55,13 @@ class BaseScene {
 
   addLights(scene, showHelper = true) {
 
-    const hemiLight = new THREE.HemisphereLight(0xffffff, 0xffffff, 1);
+    const hemiLight = new THREE.HemisphereLight(0xffffff, 0xffffff, 0.8);
     //  hemiLight.color.setHSL(1, 1, 1);
     //  hemiLight.groundColor.setHSL(0.095, 1, 0.75);
     hemiLight.position.set(0, 1000 * this.scaleX, 0);
     // hemiLight.castShadow = true;
     scene.add(hemiLight);
-    const hemiLightHelper = new THREE.HemisphereLightHelper(hemiLight, 100);
+    const hemiLightHelper = new THREE.HemisphereLightHelper(hemiLight, 10);
     if (showHelper)
       scene.add(hemiLightHelper);
     // var light = new THREE.AmbientLight(0xffffff); // soft white light
@@ -81,7 +81,7 @@ class BaseScene {
     dirLight.shadow.camera.top = d;
     dirLight.shadow.camera.bottom = -d;
     dirLight.shadow.camera.far = 65000;
-    dirLight.shadow.bias = -0.0001;
+    dirLight.shadow.bias = -0.00001;
     const dirLightHeper = new THREE.DirectionalLightHelper(dirLight, 10000);
     scene.add(dirLight);
     if (showHelper)
